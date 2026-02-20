@@ -1,0 +1,16 @@
+pub const R0: u8 = 0x0;
+pub const R1: u8 = 0x1;
+pub const R2: u8 = 0x2;
+pub const R3: u8 = 0x3;
+pub const R4: u8 = 0x4;
+pub const R5: u8 = 0x5;
+pub const R6: u8 = 0x6;
+pub const R7: u8 = 0x7;
+pub const R8: u8 = 0x8;
+pub const R9: u8 = 0x9;
+pub const RA: u8 = 0xA;
+pub const RB: u8 = 0xB;
+pub const RC: u8 = 0xC;
+pub const RD: u8 = 0xD;
+pub const SP: u8 = 0xE;
+pub const PC: u8 = 0xF;
