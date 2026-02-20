@@ -1,8 +1,10 @@
-ldi r1 0
-ldi r2 1
-ldi r3 10
-add r1 r1 r2
-ne r4 r1 r3
-ldi r5 -18
-brif rel r5 r4
-hlt
+            ldi gr0 0
+            ldi gr1 1
+            ldi gr2 10
+
+.Lloop:     add gr0 gr0 gr1
+            eq gr3 gr0 gr2
+            jii rel .Lend gr3
+            jmi rel .Lloop
+
+.Lend:      hlt

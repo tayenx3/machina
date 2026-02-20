@@ -15,8 +15,8 @@ pub struct M0_32 {
 impl M0_32 {
     pub fn new() -> Self {
         let mut registers = [0u32; 16];
-        registers[PC as usize] = 3_221_225_472u32;
-        registers[SP as usize] = 3_221_225_471u32;
+        registers[RPC as usize] = 3_221_225_472u32;
+        registers[CSP as usize] = 3_221_225_471u32;
 
         Self {
             registers,
@@ -53,7 +53,7 @@ impl M0_32 {
     }
 
     pub fn cycle(&mut self) {
-        let pc = self.registers[PC as usize];
+        let pc = self.registers[RPC as usize];
         let inst = u64::from_le_bytes([
             self.mem[pc as usize],
             self.mem[pc.wrapping_add(1) as usize],
@@ -64,7 +64,7 @@ impl M0_32 {
             0u8,
             0u8
         ].try_into().unwrap());
-        self.registers[PC as usize] = pc.wrapping_add(6);
+        self.registers[RPC as usize] = pc.wrapping_add(6);
 
         let opcode = (inst & 0xFF) as u8;
         match opcode {
@@ -185,22 +185,22 @@ impl M0_32 {
 
                 self.registers[dest] = u32::from_le_bytes(bytes);
             },
-            isa::JMP => {
+            isa::JMR => {
                 let dest = ((inst >> 8) & 0xF) as usize;
                 let is_relative = ((inst >> 12) & 0x1) as u8;
 
                 if is_relative != 0 {
                     let jmp = self.registers[dest] as i32;
                     if jmp.is_negative() {
-                        self.registers[PC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                        self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
                     } else {
-                        self.registers[PC as usize] = pc.saturating_add(jmp as u32);
+                        self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
                     }
                 } else {
-                    self.registers[PC as usize] = self.registers[dest];
+                    self.registers[RPC as usize] = self.registers[dest];
                 }
             },
-            isa::BRIF => {
+            isa::JRI => {
                 let dest = ((inst >> 8) & 0xF) as usize;
                 let src = ((inst >> 12) & 0xF) as usize;
                 let is_relative = ((inst >> 16) & 0x1) as u8;
@@ -209,69 +209,147 @@ impl M0_32 {
                     if is_relative != 0 {
                         let jmp = self.registers[dest] as i32;
                         if jmp.is_negative() {
-                            self.registers[PC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                            self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
                         } else {
-                            self.registers[PC as usize] = pc.saturating_add(jmp as u32);
+                            self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
                         }
                     } else {
-                        self.registers[PC as usize] = self.registers[dest];
+                        self.registers[RPC as usize] = self.registers[dest];
                     }
                 }
             },
-            isa::CAL => {
+            isa::CAR => {
                 let dest = ((inst >> 8) & 0xF) as usize;
                 let is_relative = ((inst >> 12) & 0x1) as u8;
 
                 let ret_addr = pc.wrapping_add(6).to_le_bytes();
-                let sp = self.registers[SP as usize];
+                let sp = self.registers[CSP as usize];
                 for i in 0..4 {
                     self.mem[sp.wrapping_sub(i) as usize] = ret_addr[3 - i as usize];
                 }
-                self.registers[SP as usize] = sp.wrapping_sub(4);
+                self.registers[CSP as usize] = sp.wrapping_sub(4);
                 if is_relative != 0 {
                     let jmp = self.registers[dest] as i32;
                     if jmp.is_negative() {
-                        self.registers[PC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                        self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
                     } else {
-                        self.registers[PC as usize] = pc.saturating_add(jmp as u32);
+                        self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
                     }
                 } else {
-                    self.registers[PC as usize] = self.registers[dest];
+                    self.registers[RPC as usize] = self.registers[dest];
                 }
             },
-            isa::CAIF => {
+            isa::CRI => {
                 let dest = ((inst >> 8) & 0xF) as usize;
                 let src = ((inst >> 12) & 0xF) as usize;
                 let is_relative = ((inst >> 16) & 0x1) as u8;
 
                 if self.registers[src] != 0 {
                     let ret_addr = pc.wrapping_add(6).to_le_bytes();
-                    let sp = self.registers[SP as usize];
+                    let sp = self.registers[CSP as usize];
                     for i in 0..4 {
                         self.mem[sp.wrapping_sub(i) as usize] = ret_addr[3 - i as usize];
                     }
-                    self.registers[SP as usize] = sp.wrapping_sub(4);
+                    self.registers[CSP as usize] = sp.wrapping_sub(4);
                     if is_relative != 0 {
                         let jmp = self.registers[dest] as i32;
                         if jmp.is_negative() {
-                            self.registers[PC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                            self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
                         } else {
-                            self.registers[PC as usize] = pc.saturating_add(jmp as u32);
+                            self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
                         }
                     } else {
-                        self.registers[PC as usize] = self.registers[dest];
+                        self.registers[RPC as usize] = self.registers[dest];
+                    }
+                }
+            },
+            isa::JMI => {
+                let dest = ((inst >> 8) & 0xFFFFFFFF) as u32;
+                let is_relative = ((inst >> 40) & 0x1) as u8;
+
+                if is_relative != 0 {
+                    let jmp = dest as i32;
+                    if jmp.is_negative() {
+                        self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                    } else {
+                        self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
+                    }
+                } else {
+                    self.registers[RPC as usize] = dest;
+                }
+            },
+            isa::JII => {
+                let dest = ((inst >> 8) & 0xFFFFFFFF) as u32;
+                let src = ((inst >> 40) & 0xF) as usize;
+                let is_relative = ((inst >> 44) & 0x1) as u8;
+
+                if self.registers[src] != 0 {
+                    if is_relative != 0 {
+                        let jmp = dest as i32;
+                        if jmp.is_negative() {
+                            self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                        } else {
+                            self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
+                        }
+                    } else {
+                        self.registers[RPC as usize] = dest;
+                    }
+                }
+            },
+            isa::CAI => {
+                let dest = ((inst >> 8) & 0xFFFFFFFF) as u32;
+                let is_relative = ((inst >> 40) & 0x1) as u8;
+
+                let ret_addr = pc.wrapping_add(6).to_le_bytes();
+                let sp = self.registers[CSP as usize];
+                for i in 0..4 {
+                    self.mem[sp.wrapping_sub(i) as usize] = ret_addr[3 - i as usize];
+                }
+                self.registers[CSP as usize] = sp.wrapping_sub(4);
+                if is_relative != 0 {
+                    let jmp = dest as i32;
+                    if jmp.is_negative() {
+                        self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                    } else {
+                        self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
+                    }
+                } else {
+                    self.registers[RPC as usize] = dest;
+                }
+            },
+            isa::CII => {
+                let dest = ((inst >> 8) & 0xFFFFFFFF) as u32;
+                let src = ((inst >> 40) & 0xF) as usize;
+                let is_relative = ((inst >> 44) & 0x1) as u8;
+
+                if self.registers[src] != 0 {
+                    let ret_addr = pc.wrapping_add(6).to_le_bytes();
+                    let sp = self.registers[CSP as usize];
+                    for i in 0..4 {
+                        self.mem[sp.wrapping_sub(i) as usize] = ret_addr[3 - i as usize];
+                    }
+                    self.registers[CSP as usize] = sp.wrapping_sub(4);
+                    if is_relative != 0 {
+                        let jmp = dest as i32;
+                        if jmp.is_negative() {
+                            self.registers[RPC as usize] = pc.saturating_sub(jmp.abs() as u32);
+                        } else {
+                            self.registers[RPC as usize] = pc.saturating_add(jmp as u32);
+                        }
+                    } else {
+                        self.registers[RPC as usize] = dest;
                     }
                 }
             },
             isa::RET => {
                 let mut bytes = [0; 4];
                 for i in 0..4 {
-                    let sp = self.registers[SP as usize];
+                    let sp = self.registers[CSP as usize];
                     bytes[i] = self.mem[sp as usize];
-                    self.registers[SP as usize] = self.registers[SP as usize].wrapping_add(1);
+                    self.registers[CSP as usize] = self.registers[CSP as usize].wrapping_add(1);
                 }
 
-                self.registers[PC as usize] = u32::from_le_bytes(bytes);
+                self.registers[RPC as usize] = u32::from_le_bytes(bytes);
             },
             isa::EQ => {
                 let dest = ((inst >> 8) & 0xF) as usize;

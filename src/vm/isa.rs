@@ -52,36 +52,48 @@ pub const LBU: u8  = 0x10;
 /// Load word
 /// `[8:opcode][4:dest][4:src]`
 pub const LW: u8   = 0x11;
+/// Jump register
+/// `[8:opcode][4:dest][1:rel/abs]`
+pub const JMR: u8 = 0x12;
+/// Jump register if true
+/// `[8:opcode][4:dest][4:src][1:rel/abs]`
+pub const JRI: u8  = 0x13;
+/// Call register
+/// `[8:opcode][4:dest][1:rel/abs]`
+pub const CAR: u8  = 0x14;
+/// Call register if true
+/// `[8:opcode][4:dest][4:src][1:rel/abs]`
+pub const CRI: u8  = 0x15;
 /// Jump
-/// `[8:opcode][4:dest][1:rel/abs]`
-pub const JMP: u8  = 0x12;
-/// Branch if true
-/// `[8:opcode][4:dest][4:src][1:rel/abs]`
-pub const BRIF: u8 = 0x13;
-/// Call
-/// `[8:opcode][4:dest][1:rel/abs]`
-pub const CAL: u8  = 0x14;
-/// Call if true
-/// `[8:opcode][4:dest][4:src][1:rel/abs]`
-pub const CAIF: u8 = 0x15;
+/// `[8:opcode][32:dest][1:rel/abs]`
+pub const JMI: u8  = 0x16;
+/// Branch immediate if true
+/// `[8:opcode][32:dest][4:src][1:rel/abs]`
+pub const JII: u8  = 0x17;
+/// Call immediate
+/// `[8:opcode][32:dest][1:rel/abs]`
+pub const CAI: u8  = 0x18;
+/// Call immediate if true
+/// `[8:opcode][32:dest][4:src][1:rel/abs]`
+pub const CII: u8  = 0x19;
 /// Return
 /// `[8:opcode]`
-pub const RET: u8  = 0x16;
+pub const RET: u8  = 0x1A;
 /// Compare equal
 /// `[8:opcode][4:dest][4:src1][4:src2]`
-pub const EQ: u8   = 0x17;
+pub const EQ: u8   = 0x1B;
 /// Compare not-equal
 /// `[8:opcode][4:dest][4:src1][4:src2]`
-pub const NE: u8   = 0x18;
+pub const NE: u8   = 0x1C;
 /// Compare greater-than
 /// `[8:opcode][4:dest][4:src1][4:src2]`
-pub const GT: u8   = 0x19;
+pub const GT: u8   = 0x1D;
 /// Compare less-than
 /// `[8:opcode][4:dest][4:src1][4:src2]`
-pub const LT: u8   = 0x1A;
+pub const LT: u8   = 0x1E;
 /// Compare greater-than-or-equal
 /// `[8:opcode][4:dest][4:src1][4:src2]`
-pub const GE: u8   = 0x1B;
+pub const GE: u8   = 0x1F;
 /// Compare less-than-or-equal
 /// `[8:opcode][4:dest][4:src1][4:src2]`
-pub const LE: u8   = 0x1C;
+pub const LE: u8   = 0x20;
