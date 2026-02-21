@@ -109,3 +109,33 @@ pub const ADDI: u8 = 0x23;
 /// Subtract immediate
 /// `[8:opcode][4:dest][4:src][32:imm]`
 pub const SUBI: u8 = 0x24;
+/// Shift left
+/// `[8:opcode][4:dest][4:src1][4:src2]`
+pub const SHL: u8  = 0x25;
+/// Logical shift right
+/// `[8:opcode][4:dest][4:src1][4:src2]`
+pub const LSHR: u8 = 0x26;
+/// Arithmetic shift left
+/// `[8:opcode][4:dest][4:src1][4:src2]`
+pub const ASHR: u8 = 0x27;
+/// Rotate left
+/// `[8:opcode][4:dest][4:src1][4:src2]`
+pub const ROTL: u8 = 0x28;
+/// Rotate right
+/// `[8:opcode][4:dest][4:src1][4:src2]`
+pub const ROTR: u8 = 0x29;
+/// Push byte
+/// `[8:opcode][4:src]`
+pub const PB: u8   = 0x2A;
+/// Push word
+/// `[8:opcode][4:src]`
+pub const PW: u8   = 0x2B;
+/// Pop byte signed
+/// `[8:opcode][4:dest]`
+pub const POBS: u8 = 0x2C;
+/// Pop byte unsigned
+/// `[8:opcode][4:dest]`
+pub const POBU: u8 = 0x2D;
+/// Pop word
+/// `[8:opcode][4:dest]`
+pub const POW: u8  = 0x2E;

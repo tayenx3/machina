@@ -53,7 +53,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "nop" | "NOP" => {
             if parts.len() != 1 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for NOP instruction",
+                    "error on line {}: invalid operand count for NOP instruction",
                     idx + 1
                 ));
             }
@@ -62,7 +62,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "hlt" | "HLT" => {
             if parts.len() != 1 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for HLT instruction",
+                    "error on line {}: invalid operand count for HLT instruction",
                     idx + 1
                 ));
             }
@@ -71,7 +71,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "ldi" | "LDI" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LDI instruction",
+                    "error on line {}: invalid operand count for LDI instruction",
                     idx + 1
                 ));
             }
@@ -107,7 +107,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "add" | "ADD" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for ADD instruction",
+                    "error on line {}: invalid operand count for ADD instruction",
                     idx + 1
                 ));
             }
@@ -128,7 +128,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "sub" | "SUB" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for SUB instruction",
+                    "error on line {}: invalid operand count for SUB instruction",
                     idx + 1
                 ));
             }
@@ -149,7 +149,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "bor" | "BOR" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for BOR instruction",
+                    "error on line {}: invalid operand count for BOR instruction",
                     idx + 1
                 ));
             }
@@ -170,7 +170,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "band" | "BAND" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for BAND instruction",
+                    "error on line {}: invalid operand count for BAND instruction",
                     idx + 1
                 ));
             }
@@ -191,7 +191,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "bxor" | "BXOR" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for BXOR instruction",
+                    "error on line {}: invalid operand count for BXOR instruction",
                     idx + 1
                 ));
             }
@@ -212,7 +212,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "bnot" | "BNOT" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for BNOY instruction",
+                    "error on line {}: invalid operand count for BNOY instruction",
                     idx + 1
                 ));
             }
@@ -230,7 +230,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "lor" | "LOR" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LOR instruction",
+                    "error on line {}: invalid operand count for LOR instruction",
                     idx + 1
                 ));
             }
@@ -251,7 +251,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "land" | "LAND" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LAND instruction",
+                    "error on line {}: invalid operand count for LAND instruction",
                     idx + 1
                 ));
             }
@@ -272,7 +272,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "lxor" | "LXOR" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LXOR instruction",
+                    "error on line {}: invalid operand count for LXOR instruction",
                     idx + 1
                 ));
             }
@@ -293,7 +293,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "lnot" | "LNOT" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LNOT instruction",
+                    "error on line {}: invalid operand count for LNOT instruction",
                     idx + 1
                 ));
             }
@@ -311,7 +311,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "sb" | "SB" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for SB instruction",
+                    "error on line {}: invalid operand count for SB instruction",
                     idx + 1
                 ));
             }
@@ -329,7 +329,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "sw" | "SW" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for SW instruction",
+                    "error on line {}: invalid operand count for SW instruction",
                     idx + 1
                 ));
             }
@@ -347,7 +347,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "lbs" | "LBS" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LBS instruction",
+                    "error on line {}: invalid operand count for LBS instruction",
                     idx + 1
                 ));
             }
@@ -365,7 +365,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "lbu" | "LBU" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LBU instruction",
+                    "error on line {}: invalid operand count for LBU instruction",
                     idx + 1
                 ));
             }
@@ -383,7 +383,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "lw" | "LW" => {
             if parts.len() != 3 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LW instruction",
+                    "error on line {}: invalid operand count for LW instruction",
                     idx + 1
                 ));
             }
@@ -423,7 +423,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for JMR instruction",
+                    "error on line {}: invalid operand count for JMR instruction",
                     idx + 1
                 ));
             }
@@ -457,7 +457,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for JRI instruction",
+                    "error on line {}: invalid operand count for JRI instruction",
                     idx + 1
                 ));
             }
@@ -487,7 +487,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for CAR instruction",
+                    "error on line {}: invalid operand count for CAR instruction",
                     idx + 1
                 ));
             }
@@ -521,7 +521,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for CRI instruction",
+                    "error on line {}: invalid operand count for CRI instruction",
                     idx + 1
                 ));
             }
@@ -607,7 +607,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for JMR instruction",
+                    "error on line {}: invalid operand count for JMR instruction",
                     idx + 1
                 ));
             }
@@ -697,7 +697,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for JII instruction",
+                    "error on line {}: invalid operand count for JII instruction",
                     idx + 1
                 ));
             }
@@ -783,7 +783,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for CAi instruction",
+                    "error on line {}: invalid operand count for CAi instruction",
                     idx + 1
                 ));
             }
@@ -873,7 +873,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 ]);
             } else {
                 return Err(format!(
-                    "error on line {}: invalid argument count for CII instruction",
+                    "error on line {}: invalid operand count for CII instruction",
                     idx + 1
                 ));
             }
@@ -881,7 +881,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "ret" | "RET" => {
             if parts.len() != 1 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for RET instruction",
+                    "error on line {}: invalid operand count for RET instruction",
                     idx + 1
                 ));
             }
@@ -890,7 +890,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "eq" | "EQ" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for EQ instruction",
+                    "error on line {}: invalid operand count for EQ instruction",
                     idx + 1
                 ));
             }
@@ -911,7 +911,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "ne" | "NE" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for NE instruction",
+                    "error on line {}: invalid operand count for NE instruction",
                     idx + 1
                 ));
             }
@@ -932,7 +932,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "gt" | "GT" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for GT instruction",
+                    "error on line {}: invalid operand count for GT instruction",
                     idx + 1
                 ));
             }
@@ -953,7 +953,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "lt" | "LT" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LT instruction",
+                    "error on line {}: invalid operand count for LT instruction",
                     idx + 1
                 ));
             }
@@ -974,7 +974,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "ge" | "GE" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for GE instruction",
+                    "error on line {}: invalid operand count for GE instruction",
                     idx + 1
                 ));
             }
@@ -995,7 +995,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "le" | "LE" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for LE instruction",
+                    "error on line {}: invalid operand count for LE instruction",
                     idx + 1
                 ));
             }
@@ -1016,7 +1016,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "inc" | "INC" => {
             if parts.len() != 2 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for INC instruction",
+                    "error on line {}: invalid operand count for INC instruction",
                     idx + 1
                 ));
             }
@@ -1032,7 +1032,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "dec" | "DEC" => {
             if parts.len() != 2 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for DEC instruction",
+                    "error on line {}: invalid operand count for DEC instruction",
                     idx + 1
                 ));
             }
@@ -1048,7 +1048,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "addi" | "ADDI" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for ADDI instruction",
+                    "error on line {}: invalid operand count for ADDI instruction",
                     idx + 1
                 ));
             }
@@ -1080,7 +1080,7 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
         "subi" | "SUBI" => {
             if parts.len() != 4 {
                 return Err(format!(
-                    "error on line {}: invalid argument count for SUBI instruction",
+                    "error on line {}: invalid operand count for SUBI instruction",
                     idx + 1
                 ));
             }
@@ -1109,6 +1109,191 @@ fn assemble_parts(idx: usize, parts: &[&str], result: &mut Vec<u8>, labels: &Has
                 imm[0], imm[1], imm[2], imm[3]
             ]);
         },
+        "shl" | "SHL" => {
+            if parts.len() != 4 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for SHL instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src1 = parse_register(parts[2])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src2 = parse_register(parts[3])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            
+            result.extend([
+                SHL,
+                dest | (src1 << 4),
+                src2,
+                0, 0, 0
+            ]);
+        },
+        "lshr" | "LSHR" => {
+            if parts.len() != 4 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for LSHR instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src1 = parse_register(parts[2])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src2 = parse_register(parts[3])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            
+            result.extend([
+                LSHR,
+                dest | (src1 << 4),
+                src2,
+                0, 0, 0
+            ]);
+        },
+        "ashr" | "ASHR" => {
+            if parts.len() != 4 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for ASHR instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src1 = parse_register(parts[2])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src2 = parse_register(parts[3])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            
+            result.extend([
+                ASHR,
+                dest | (src1 << 4),
+                src2,
+                0, 0, 0
+            ]);
+        },
+        "rotl" | "ROTL" => {
+            if parts.len() != 4 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for ROTL instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src1 = parse_register(parts[2])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src2 = parse_register(parts[3])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            
+            result.extend([
+                ROTL,
+                dest | (src1 << 4),
+                src2,
+                0, 0, 0
+            ]);
+        },
+        "rotr" | "ROTR" => {
+            if parts.len() != 4 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for ROTR instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src1 = parse_register(parts[2])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            let src2 = parse_register(parts[3])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+            
+            result.extend([
+                ROTR,
+                dest | (src1 << 4),
+                src2,
+                0, 0, 0
+            ]);
+        },
+        "pb" | "PB" => {
+            if parts.len() != 2 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for PB instruction",
+                    idx + 1
+                ));
+            }
+            let src = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+
+            result.extend([
+                PB,
+                src,
+                0, 0, 0, 0
+            ]);
+        },
+        "pw" | "PW" => {
+            if parts.len() != 2 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for PW instruction",
+                    idx + 1
+                ));
+            }
+            let src = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+
+            result.extend([
+                PW,
+                src,
+                0, 0, 0, 0
+            ]);
+        },
+        "pobs" | "POBS" => {
+            if parts.len() != 2 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for POBS instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+
+            result.extend([
+                POBS,
+                dest,
+                0, 0, 0, 0
+            ]);
+        },
+        "pobu" | "POBU" => {
+            if parts.len() != 2 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for POBU instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+
+            result.extend([
+                POBU,
+                dest,
+                0, 0, 0, 0
+            ]);
+        },
+        "pow" | "POW" => {
+            if parts.len() != 2 {
+                return Err(format!(
+                    "error on line {}: invalid operand count for POW instruction",
+                    idx + 1
+                ));
+            }
+            let dest = parse_register(parts[1])
+                .map_err(|err| format!("error on line {}: {err}", idx+1))?;
+
+            result.extend([
+                POW,
+                dest,
+                0, 0, 0, 0
+            ]);
+        },
         other if other.ends_with(":") => if parts.len() != 1 {
             assemble_parts(idx, &parts[1..], result, labels, current_addr)?;
             return Ok(());
@@ -1133,7 +1318,7 @@ pub fn assemble_from_path<P: AsRef<Path>>(path: P) -> Result<String, String> {
         .map_err(|err| err.to_string())?;
     let bytes = assemble(&source)?;
     let output = format!(
-        "{}.m0bin",
+        "{}.bin",
         path.as_ref().file_stem().unwrap().display()
     );
     fs::write(&output, bytes)
@@ -1166,14 +1351,16 @@ pub fn parse_register(s: &str) -> Result<u8, String> {
 pub fn parse_immediate(s: &str) -> Result<u32, String> {
     let lowercase = s.to_lowercase();
     if s.starts_with("0x") {
-        u32::from_str_radix(&lowercase, 16)
+        u32::from_str_radix(&lowercase[2..], 16)
             .map_err(|_| format!("invalid immediate: `{s}`"))
     } else if s.starts_with("0b") {
-        u32::from_str_radix(&lowercase, 2)
+        u32::from_str_radix(&lowercase[2..], 2)
             .map_err(|_| format!("invalid immediate: `{s}`"))
     } else if s.starts_with("0o") {
-        u32::from_str_radix(&lowercase, 8)
+        u32::from_str_radix(&lowercase[2..], 8)
             .map_err(|_| format!("invalid immediate: `{s}`"))
+    } else if s.starts_with("'") && s.starts_with("'") {
+        todo!("characters")
     } else {
         u32::from_str_radix(&lowercase, 10)
             .map_err(|_| format!("invalid immediate: `{s}`"))

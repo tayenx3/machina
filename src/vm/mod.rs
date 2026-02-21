@@ -15,8 +15,8 @@ pub struct M0_32 {
 impl M0_32 {
     pub fn new() -> Self {
         let mut registers = [0u32; 16];
-        registers[RPC as usize] = 3_221_225_472u32;
-        registers[CSP as usize] = 3_221_225_471u32;
+        registers[RPC as usize] = 3_221_225_472u32; // 1GB Instruction Memory
+        registers[CSP as usize] = 3_221_225_471u32; // Call stack starting at 0xBFFFFFFF
 
         Self {
             registers,
@@ -174,7 +174,7 @@ impl M0_32 {
             },
             isa::LW => {
                 let dest = ((inst >> 8) & 0xF) as usize;
-                let src = (inst >> 12) & 0xF;
+                let src = self.registers[((inst >> 12) & 0xF) as usize];
 
                 let bytes = [
                     self.mem[src as usize],
@@ -416,6 +416,91 @@ impl M0_32 {
                 let src2 = ((inst >> 16) & 0xFFFFFFFF) as u32;
 
                 self.registers[dest] = self.registers[src1].wrapping_sub(src2);
+            },
+            isa::SHL => {
+                let dest = ((inst >> 8) & 0xF) as usize;
+                let src1 = ((inst >> 12) & 0xF) as usize;
+                let src2 = ((inst >> 16) & 0xF) as usize;
+
+                self.registers[dest] = self.registers[src1].wrapping_shl(self.registers[src2]);
+            },
+            isa::LSHR => {
+                let dest = ((inst >> 8) & 0xF) as usize;
+                let src1 = ((inst >> 12) & 0xF) as usize;
+                let src2 = ((inst >> 16) & 0xF) as usize;
+
+                self.registers[dest] = self.registers[src1].wrapping_shr(self.registers[src2]);
+            },
+            isa::ASHR => {
+                let dest = ((inst >> 8) & 0xF) as usize;
+                let src1 = ((inst >> 12) & 0xF) as usize;
+                let src2 = ((inst >> 16) & 0xF) as usize;
+
+                self.registers[dest] = (self.registers[src1] as i32).wrapping_shr(self.registers[src2]) as u32;
+            },
+            isa::ROTL => {
+                let dest = ((inst >> 8) & 0xF) as usize;
+                let src1 = ((inst >> 12) & 0xF) as usize;
+                let src2 = ((inst >> 16) & 0xF) as usize;
+
+                self.registers[dest] = self.registers[src1].rotate_left(self.registers[src2]);
+            },
+            isa::ROTR => {
+                let dest = ((inst >> 8) & 0xF) as usize;
+                let src1 = ((inst >> 12) & 0xF) as usize;
+                let src2 = ((inst >> 16) & 0xF) as usize;
+
+                self.registers[dest] = self.registers[src1].rotate_right(self.registers[src2]);
+            },
+            isa::PB => {
+                let src = ((inst >> 8) & 0xF) as usize;
+
+                self.mem[self.registers[RSP as usize] as usize]
+                    = (self.registers[src] & 0xFF) as u8;
+
+                self.registers[RSP as usize] = self.registers[RSP as usize].wrapping_sub(1);
+            },
+            isa::PW => {
+                let sp = self.registers[RSP as usize];
+                let src = ((inst >> 8) & 0xF) as usize;
+                let bytes = self.registers[src].to_le_bytes();
+                
+                for i in 0..4 {
+                    self.mem[sp.wrapping_sub(i) as usize] = bytes[3 - i as usize];
+                }
+
+                self.registers[RSP as usize] = self.registers[RSP as usize].wrapping_sub(4);
+            },
+            isa::POBS => {
+                self.registers[RSP as usize] = self.registers[RSP as usize].wrapping_add(1);
+                
+                let sp = self.registers[RSP as usize];
+                let dest = ((inst >> 8) & 0xF) as usize;
+
+                self.registers[dest] = self.mem[sp as usize] as i8 as i32 as u32;
+            },
+            isa::POBU => {
+                self.registers[RSP as usize] = self.registers[RSP as usize].wrapping_add(1);
+
+                let sp = self.registers[RSP as usize];
+                let dest = ((inst >> 8) & 0xF) as usize;
+
+                self.registers[dest] = self.mem[sp as usize] as u32;
+            },
+            isa::POW => {
+                self.registers[RSP as usize] = self.registers[RSP as usize].wrapping_add(4);
+
+                let dest = ((inst >> 8) & 0xF) as usize;
+                let sp = self.registers[RSP as usize];
+
+                let bytes = [
+                    self.mem[sp.wrapping_sub(3) as usize],
+                    self.mem[sp.wrapping_sub(2) as usize],
+                    self.mem[sp.wrapping_sub(1) as usize],
+                    self.mem[sp as usize],
+                ];
+
+                self.registers[dest] = u32::from_le_bytes(bytes);
             },
             _ => (),
         }

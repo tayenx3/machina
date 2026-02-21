@@ -1,6 +1,10 @@
 [package]
-name = "m0-32"
+name = "m-ar32"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
+description = "Experimental 32-bit hardware emulator"
+authors = ["tayenp <kontajiousgd00@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/tayenx3/m-ar32"
 
 [dependencies]

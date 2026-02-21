@@ -2,20 +2,26 @@ mod vm;
 
 use vm::M0_32;
 use vm::assembler;
+use vm::registers::RDS;
 use std::env;
 
 fn main() {
     let args = env::args().collect::<Vec<_>>();
-    if args.len() != 3 {
-        eprintln!("Usage: m0-32 <program>.m0asm <output register>")
+    if args.len() > 4 || args.len() < 2 {
+        eprintln!("Usage: m0-32 <program>.mar32 (<output register>)");
+        return;
     }
 
-    let output = match assembler::parse_register(&args[2]) {
-        Ok(reg) => reg,
-        Err(err) => {
-            eprintln!("{err}");
-            return;
-        },
+    let output = if args.len() == 3 {
+        match assembler::parse_register(&args[2]) {
+            Ok(reg) => reg,
+            Err(err) => {
+                eprintln!("{err}");
+                return;
+            },
+        }
+    } else {
+        RDS
     };
 
     let mut vm = M0_32::new();

@@ -1,0 +1,72 @@
+; the bare minimum for an "OS"
+
+; bootloader
+@bootloader:
+    ; set up stack (pointer)
+    ldi rsp 0x8000
+
+    jmi rel @user
+
+; call the user programs
+@user:
+    ; they dont run in parallel but still cool ig?
+    cai rel @program1
+    cai rel @program2
+
+    jmi rel @shutdown
+
+
+; test programs that loop 10M times
+@program1:
+    pw gr6 ; push word
+    pw gr7
+    pw gr8
+    pw gr9
+    pw gra
+    pw grb
+
+    ldi gr6 10000000
+
+.loop:
+    dec gr6
+    jii rel .loop gr6 ; loop if GR6 is true (not zero)
+
+    pow grb ; pop word
+    pow gra
+    pow gr9
+    pow gr8
+    pow gr7
+    pow gr6
+
+    ret
+    
+; same thing, different logic
+@program2:
+    pw gr6
+    pw gr7
+    pw gr8
+    pw gr9
+    pw gra
+    pw grb
+
+    ldi gr6 0
+
+.loop:
+    inc gr6
+    subi gr7 gr6 10000000
+    jii rel .loop gr7 ; loop if GR7 is true (not zero)
+
+    pow grb
+    pow gra
+    pow gr9
+    pow gr8
+    pow gr7
+    pow gr6
+
+    ret
+
+@shutdown:
+    ; reset stack pointer if needed
+    ldi rsp 0x0000
+    
+    hlt

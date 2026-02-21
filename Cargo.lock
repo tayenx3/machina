@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "m0-32"
+name = "m-ar32"
 version = "0.1.0"
