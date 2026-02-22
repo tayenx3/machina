@@ -1,6 +1,6 @@
 mod vm;
 
-use vm::M0_32;
+use vm::MachinaArgon;
 use vm::assembler;
 use vm::registers::RDS;
 use std::env;
@@ -24,7 +24,7 @@ fn main() {
         RDS
     };
 
-    let mut vm = M0_32::new();
+    let mut vm = MachinaArgon::new();
 
     match assembler::assemble_from_path(&args[1]) {
         Ok(path) => if let Err(err) = vm.load_program_from_path(path) {

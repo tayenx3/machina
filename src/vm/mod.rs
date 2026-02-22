@@ -6,13 +6,13 @@ use std::path::Path;
 use registers::*;
 
 #[derive(Clone)]
-pub struct M0_32 {
+pub struct MachinaArgon {
     pub registers: [u32; 16],
     pub mem: Box<[u8; 4_294_967_296]>,
     pub is_running: bool,
 }
 
-impl M0_32 {
+impl MachinaArgon {
     pub fn new() -> Self {
         let mut registers = [0u32; 16];
         registers[RPC as usize] = 3_221_225_472u32; // 1GB Instruction Memory
