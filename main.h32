@@ -1,7 +1,5 @@
 @start:
-    ldi gr0 1.5
-    ldi gr1 0.8
-
-    fadd gr2 gr0 gr1
+    ldi gr0 'H'
+    ldi gr1 'I'
 
     hlt

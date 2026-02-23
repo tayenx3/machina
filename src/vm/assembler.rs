@@ -1572,7 +1572,24 @@ pub fn parse_immediate(s: &str) -> Result<u32, String> {
         u32::from_str_radix(&lowercase[2..], 8)
             .map_err(|_| format!("invalid immediate: `{s}`"))
     } else if s.starts_with("'") && s.starts_with("'") {
-        todo!("characters")
+        let c = s[1..s.len()-1].chars().collect::<Vec<_>>();
+        if c.is_empty() {
+            return Err(format!("invalid immediate: `{s}`"));
+        }
+        match c[0] {
+            '\\' if c.len() == 2 => {
+                Ok(match c[1] {
+                    'n' => '\n',
+                    '\\' => '\\',
+                    't' => '\t',
+                    'r' => '\r',
+                    '\'' => '\'',
+                    _ => return Err(format!("invalid immediate: `{s}`"))
+                } as u32)
+            },
+            ch if c.len() == 1 => Ok(ch as u32),
+            _ => Err(format!("invalid immediate: `{s}`"))
+        }
     } else {
         u32::from_str_radix(&lowercase, 10)
             .map_err(|_| format!("invalid immediate: `{s}`"))
